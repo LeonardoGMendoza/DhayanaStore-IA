@@ -72,7 +72,10 @@ export default function App() {
       setRes(d)
       setAnuncio(d.anuncio)
     } catch (e) {
-      setError(e instanceof Error && e.message !== 'Failed to fetch' ? e.message : 'No pude conectar con el servidor.')
+      const msg = e instanceof Error ? e.message : ''
+      // Chrome: "Failed to fetch" · Firefox: "NetworkError…" · Safari: "Load failed"
+      const deRed = !msg || /failed to fetch|networkerror|load failed/i.test(msg)
+      setError(deRed ? 'No pude conectar con el servidor. ¿Está prendido el backend (uvicorn)?' : msg)
     } finally {
       setCargando(false)
     }
@@ -93,12 +96,12 @@ export default function App() {
             rows={8}
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
-            placeholder={'MESA AUXILIAR CON DIVISIONES\n⚡ Altura ajustable\n⚡ 4 ruedas giratorias\n⚡ PRECIO: 70 SOLES'}
+            placeholder="Ej.: copia aquí la descripción que mandó el proveedor"
           />
           <div className="row">
             <div>
               <label htmlFor="costo">2. ¿Cuánto te cuesta? (S/)</label>
-              <input id="costo" inputMode="decimal" value={costo} onChange={(e) => setCosto(e.target.value)} placeholder="70" />
+              <input id="costo" inputMode="decimal" value={costo} onChange={(e) => setCosto(e.target.value)} placeholder="Ej.: 70" />
             </div>
             <div>
               <label htmlFor="ganancia">¿Cuánto quieres ganar? (S/)</label>

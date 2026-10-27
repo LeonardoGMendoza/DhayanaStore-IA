@@ -17,7 +17,7 @@ from .redator import CATEGORIAS, Redator  # noqa: E402
 
 log = logging.getLogger("dhayana")
 app = FastAPI(title="Dhayana Store API", version="0.1.0")
-origens = [o.strip() for o in os.getenv("DHAYANA_ORIGENS", "http://localhost:5173,https://leonardogmendoza.github.io").split(",") if o.strip()]
+origens = [o.strip() for o in os.getenv("DHAYANA_ORIGENS", "http://localhost:5173,http://127.0.0.1:5173,https://leonardogmendoza.github.io").split(",") if o.strip()]
 app.add_middleware(CORSMiddleware, allow_origins=origens, allow_methods=["GET", "POST"], allow_headers=["*"])
 
 redator = Redator(oracle_do_ambiente(), tienda=os.getenv("DHAYANA_TIENDA", "Dhayana Store"),

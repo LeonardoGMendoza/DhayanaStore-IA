@@ -62,3 +62,10 @@ def test_redator_calcula_precio_y_no_lo_pide_a_la_ia():
 def test_redator_sin_ia():
     with pytest.raises(RuntimeError):
         Redator(None).escrever(TEXTO_MESA)
+
+
+def test_formatear_separa_vinetas_pegadas():
+    from app.redator import formatear
+    t = "¡Organiza tu espacio con estilo! ✅ Práctica. ✅ Altura ajustable. ✅ Medidas: 60 x 40 cm. ¡Escribe por WhatsApp y hazla tuya!"
+    assert formatear(t) == ("¡Organiza tu espacio con estilo!\n✅ Práctica.\n✅ Altura ajustable.\n"
+                            "✅ Medidas: 60 x 40 cm.\n¡Escribe por WhatsApp y hazla tuya!")

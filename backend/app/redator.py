@@ -20,7 +20,7 @@ Reglas:
 - Usa SOLO las características que están en el texto del proveedor. NO inventes medidas, materiales, colores, garantía ni marca.
 - NO menciones al proveedor, otra tienda, ni ningún precio (el precio lo pone el sistema).
 - Título: el nombre del producto en MAYÚSCULAS, máximo 50 caracteres, sin emojis ni asteriscos.
-- Descripción para Marketplace: 1 frase de gancho + de 3 a 6 viñetas que empiecen con "✅ " (una característica por viñeta) + 1 línea final que invite a escribir por WhatsApp. Máximo 600 caracteres.
+- Descripción para Marketplace: 1 frase de gancho + de 3 a 6 viñetas que empiecen con "✅ " (una característica por viñeta) + 1 línea final que invite a escribir por WhatsApp. Separa cada parte con un salto de línea (\\n). Máximo 600 caracteres.
 - Descripción corta para el catálogo web: 1 o 2 frases, máximo 180 caracteres, sin emojis.
 - Categoría: exactamente una de {categorias}.
 
@@ -45,6 +45,17 @@ def precio_sugerido(costo, ganancia):
     return int(math.ceil((costo + max(ganancia, 0)) / 5.0) * 5)
 
 
+def formatear(desc):
+    """Cada ✅ en su propia línea y la invitación final separada (la IA a veces lo junta todo)."""
+    desc = re.sub(r"[ \t]+", " ", desc.replace("\\n", "\n")).strip()
+    desc = re.sub(r"\s*✅\s*", "\n✅ ", desc).strip()
+    partes = desc.rsplit("\n✅ ", 1)
+    if len(partes) == 2:  # separa la frase final ("¡Escríbenos por WhatsApp!") de la última viñeta
+        ultima = re.sub(r"([.!])\s+(?=[¡📲👉]|Escr|Pide|Haz|Cont|Pregunt)", r"\1\n", partes[1], count=1)
+        desc = partes[0] + "\n✅ " + ultima
+    return re.sub(r"\n{3,}", "\n\n", desc)
+
+
 def interpretar(texto):
     """Extrae y valida el JSON que devolvió la IA."""
     bloco = re.search(r"\{.*\}", texto or "", re.S)
@@ -52,7 +63,7 @@ def interpretar(texto):
         raise ValueError("La IA no devolvió JSON")
     d = json.loads(bloco.group(0))
     titulo = re.sub(r"[*_]", "", str(d.get("titulo") or "")).strip().upper()[:60]
-    descripcion = str(d.get("descripcion") or "").strip()
+    descripcion = formatear(str(d.get("descripcion") or ""))
     corta = str(d.get("descripcion_corta") or "").strip()[:220]
     categoria = str(d.get("categoria") or "").strip()
     if categoria not in CATEGORIAS:
