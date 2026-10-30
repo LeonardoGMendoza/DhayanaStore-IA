@@ -29,3 +29,55 @@ textarea { resize: vertical; }
 .btn-copy { border: 1px solid var(--line); background: #f1ede6; border-radius: 9px; padding: 7px 12px; font-weight: 600; cursor: pointer; }
 pre { background: #1d1b18; color: #f3efe8; padding: 12px; border-radius: 10px; overflow-x: auto; font-size: .8rem; margin: 0; }
 code { background: #f1ede6; padding: 1px 5px; border-radius: 5px; }
+
+/* ---------- navegação e painel de pedidos ---------- */
+header .top { display: flex; justify-content: space-between; align-items: center; }
+.btn-clave { background: transparent; border: 0; font-size: 1.2rem; cursor: pointer; }
+.clave { margin-top: 10px; max-width: 320px; }
+nav { display: flex; gap: 6px; margin-top: 14px; overflow-x: auto; }
+nav button { border: 0; background: #34302b; color: #cfc8bd; padding: 9px 14px; border-radius: 10px 10px 0 0; font: inherit; font-weight: 600; cursor: pointer; white-space: nowrap; }
+nav button.activo { background: var(--bg); color: var(--ink); }
+header { padding-bottom: 0; }
+select { width: 100%; font: inherit; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+.mt { margin-top: 12px; }
+h3 { font-size: .95rem; margin: 16px 0 8px; }
+.row { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.btn-sec { margin-top: 8px; border: 1px solid var(--line); background: #f1ede6; border-radius: 10px; padding: 9px 14px; font-weight: 600; cursor: pointer; }
+.btn-sec:disabled { opacity: .5; cursor: not-allowed; }
+.btn-link { border: 0; background: transparent; color: var(--muted); text-decoration: underline; cursor: pointer; font: inherit; padding: 6px 4px; }
+.btn-main.chico { width: auto; margin-top: 0; padding: 10px 16px; font-size: .92rem; }
+.btn-wa { background: #1f9d55; color: #fff; text-decoration: none; padding: 10px 14px; border-radius: 12px; font-weight: 700; font-size: .92rem; }
+.btn-x { border: 0; background: #f1ede6; border-radius: 8px; font-size: 1.1rem; cursor: pointer; }
+.items { display: grid; gap: 6px; }
+.items-head, .items-row { display: grid; grid-template-columns: 1fr 64px 90px 90px 34px; gap: 6px; align-items: center; }
+.items-head span { font-size: .75rem; color: var(--muted); }
+.items-row input { padding: 8px 9px; }
+@media (max-width: 520px) { .items-head, .items-row { grid-template-columns: 1fr 46px 64px 64px 30px; } }
+.totales { font-size: .9rem; color: var(--muted); margin: 12px 0 0; }
+.totales b { color: var(--ink); }
+.resumen.cinco { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 560px) { .resumen.cinco { grid-template-columns: repeat(3, 1fr); row-gap: 12px; } }
+.rojo { color: #b91c1c; }
+.barra { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.check { display: flex; gap: 6px; align-items: center; margin: 0; color: var(--ink); font-size: .9rem; }
+.check input { width: auto; }
+.vacio { text-align: center; color: var(--muted); padding: 20px 0; }
+.pedido { border-left: 5px solid #d6cfc4; }
+.pedido.est-confirmado { border-left-color: #2563eb; }
+.pedido.est-recogido { border-left-color: #7c3aed; }
+.pedido.est-en_camino { border-left-color: #d97706; }
+.pedido.est-entregado { border-left-color: #16a34a; opacity: .85; }
+.pedido.est-rechazado, .pedido.est-cancelado { border-left-color: #b91c1c; opacity: .7; }
+.cod { color: var(--muted); font-size: .85rem; }
+.chip { font-size: .78rem; font-weight: 700; padding: 5px 10px; border-radius: 999px; background: #f1ede6; white-space: nowrap; }
+.chip.est-confirmado { background: #dbeafe; color: #1e40af; }
+.chip.est-recogido { background: #ede9fe; color: #5b21b6; }
+.chip.est-en_camino { background: #fef3c7; color: #92400e; }
+.chip.est-entregado { background: #dcfce7; color: #166534; }
+.chip.est-rechazado, .chip.est-cancelado { background: #fee2e2; color: #991b1b; }
+.lista { list-style: none; padding: 0; margin: 10px 0 0; font-size: .92rem; }
+.lista li { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed var(--line); }
+.acciones { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+.acciones .btn-sec { margin-top: 0; }
+.pago { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.pago label { margin: 0; }

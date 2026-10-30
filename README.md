@@ -10,7 +10,7 @@ O catálogo público fica em [MarketplaceDhayanaNicol](https://github.com/Leonar
 | Agente | Faz | Status |
 |---|---|---|
 | ✍️ Redator | Texto do fornecedor → anúncio do Marketplace + bloco do catálogo, com preço e ganho | ✅ v0.1 |
-| 📦 Despachante | Painel de pedidos: status, endereço, pagamento, mensagens ao cliente | próximo |
+| 📦 Despachante | Painel de pedidos: status, pagamento, repasse do motorizado, mensagem ao cliente por WhatsApp, resumo do dia e dataset CSV para ML | ✅ v0.2 |
 | 💬 Atendente | Responde no WhatsApp com base no catálogo (RAG), passa para a Dhayana quando precisa | planejado |
 | 💰 Cobrador | Lembra os repasses do motorizado | planejado |
 | 📊 Analista | Resumo do dia; depois ML (risco de desistência, produtos que vendem) | planejado |
@@ -44,7 +44,18 @@ backend/app/
 ├── main.py      API (FastAPI): /health, /redator — com limite de pedidos por IP
 ├── ia.py        Conexão com a OCI Generative AI (Cohere)
 ├── redator.py   Agente Redator: prompt, validação do JSON, preço, id/slug
+├── pedidos.py   Agente Despachante: pedidos em SQLite (backend/data/tienda.db), estados, resumo, CSV
 └── config.py    Lê o .env
 frontend/src/
-└── App.tsx      Tela do Redator
+├── App.tsx       Abas Pedidos / Redactor e a clave del panel
+├── Pedidos.tsx   Painel de pedidos
+├── Redactor.tsx  Tela do Redator
+└── api.ts        Chamadas à API (com o header X-Admin-Token)
 ```
+
+## Dados e segurança
+
+- Os pedidos ficam em `backend/data/tienda.db` (SQLite). Essa pasta **não sobe para o GitHub** (`.gitignore`), porque tem nome, telefone e endereço de clientes.
+- Antes de colocar a API no servidor, defina `DHAYANA_ADMIN_TOKEN` no `.env`. Sem ele, o painel fica aberto (ok só no seu computador).
+- O dataset (`/pedidos/dataset.csv`) leva só distrito, horário, produtos e valores: nunca nome, telefone ou endereço.
+- `/seguimiento/{codigo}` é público para o cliente e mostra só o status do pedido.
